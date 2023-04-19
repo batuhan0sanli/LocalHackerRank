@@ -1,3 +1,3 @@
 from .colors import colorize
-from .find_diff import find_diff
+from .diff import Diff
 from .runner import Runner

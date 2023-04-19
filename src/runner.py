@@ -1,6 +1,7 @@
 import subprocess
+from typing import Optional
 
-from src import colorize, find_diff
+from src import colorize, Diff
 
 
 class Runner:
@@ -18,7 +19,8 @@ class Runner:
             self.main_file_path
         ]
         self.process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        self.out, self.err = None, None
+        self.out: Optional[bytes] = None
+        self.err: Optional[bytes] = None
 
     def run(self):
         out, err = self.process.communicate(self.inputs)
@@ -38,10 +40,11 @@ class Runner:
         if self.is_correct():
             print(colorize("Congratulations!", "green"))
         else:
+            diff = Diff(self.out, self.expected_output).colorized_text()
             print(
                 colorize("Wrong Answer :(", "red") +
                 colorize("\n\n----- Differences -----\n", "blue") +
-                colorize(find_diff(self.out, self.expected_output), "default") +
+                diff +
                 colorize("\n\n----- Your Output (stdout) -----\n", "blue") +
                 colorize(self.out.decode("utf-8"), "yellow") +
                 colorize("\n\n----- Expected Output -----\n", "blue") +
