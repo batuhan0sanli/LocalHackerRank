@@ -16,3 +16,4 @@ class Colors(Enum):
     CYAN = "\033[36m"
     WHITE = "\033[37m"
     RESET = "\033[0m"
+    DEFAULT = "\033[0m"
