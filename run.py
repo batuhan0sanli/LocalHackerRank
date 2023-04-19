@@ -1,6 +1,6 @@
 import subprocess
 
-from src import colorize
+from src import colorize, find_diff
 
 file_name = "main.py"
 inputs = open("problem_details/input.txt", "r").read().encode("utf-8")
@@ -27,11 +27,12 @@ if out == expected_output:
 
 
 else:
-    # find out & expected_output differences
     print(
-        colorize("Wrong Answer :(\n", "red"),
-        colorize("\n----- Your Output (stdout) -----\n", "blue"),
-        colorize(out.decode("utf-8"), "yellow"),
-        colorize("\n----- Expected Output -----\n", "blue"),
+        colorize("Wrong Answer :(", "red") +
+        colorize("\n\n----- Differences -----\n", "blue") +
+        colorize(find_diff(out, expected_output), "default") +
+        colorize("\n\n----- Your Output (stdout) -----\n", "blue") +
+        colorize(out.decode("utf-8"), "yellow") +
+        colorize("\n\n----- Expected Output -----\n", "blue") +
         colorize(expected_output.decode("utf-8"), "green")
     )
