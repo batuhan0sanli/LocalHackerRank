@@ -40,7 +40,7 @@ class Runner:
         if self.is_correct():
             print(colorize("Congratulations!", "green"))
         else:
-            diff = Diff(self.out, self.expected_output).colorized_text()
+            diff = Diff(self.out, self.expected_output).compare()
             print(
                 colorize("Wrong Answer :(", "red") +
                 colorize("\n\n----- Differences -----\n", "blue") +
